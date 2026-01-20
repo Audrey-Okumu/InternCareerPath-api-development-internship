@@ -1,0 +1,161 @@
+openapi: 3.0.3
+
+info:
+  title: Store API
+  version: 1.0.0
+  description: >
+    The Store API allows clients to manage products in an online store.
+    It supports creating, retrieving, updating, and deleting products
+    using RESTful endpoints.
+
+servers:
+  - url: http://localhost:3000/api
+
+tags:
+  - name: Products
+    description: Product management operations
+
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Retrieve all products
+      description: Returns a list of all available products in the store.
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: Adds a new product to the store.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              name: Smartphone
+              price: 45000
+              description: Latest Android smartphone
+              stock: 25
+      responses:
+        '201':
+          description: Product created successfully
+
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Retrieve a product by ID
+      description: Returns a single product identified by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Product found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Products
+      summary: Update a product
+      description: Updates an existing product identified by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Product updated successfully
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      description: Deletes a product from the store by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Product deleted successfully
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - name
+        - price
+        - stock
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 1
+        name:
+          type: string
+          example: Laptop
+        price:
+          type: number
+          format: float
+          example: 75000.00
+        description:
+          type: string
+          example: High performance laptop
+        stock:
+          type: integer
+          example: 10
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Product not found
