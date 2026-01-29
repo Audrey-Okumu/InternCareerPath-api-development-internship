@@ -17,29 +17,6 @@ The API enables clients to manage blog **authors** and **posts** using a single 
 
 ---
 
-## 🏗️ Project Structure
-week-3-graphql-blog-api/
-│
-├── graphql_api/
-│ ├── manage.py
-│ ├── settings.py
-│ ├── urls.py
-│ ├── schema.py # Root GraphQL schema
-│ ├── views.py # Homepage view
-│
-├── blog/
-│ ├── models.py # Blog models (Author, Post)
-│ ├── schema.py # GraphQL types, queries, mutations
-│ ├── admin.py
-│
-├── templates/
-│ └── home.html # Simple homepage
-│
-└── README.md
-
-
----
-
 ## Data Models
 
 ### Author
