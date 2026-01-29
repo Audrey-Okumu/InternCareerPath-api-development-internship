@@ -74,6 +74,7 @@ DELETE
 
 ### 1️⃣ Clone the repository
 git clone <https://github.com/Audrey-Okumu/InternCareerPath-api-development-internship.git>
+
 cd week-2-library-rest-api
 
 ### 2️⃣ Create and activate virtual environment
