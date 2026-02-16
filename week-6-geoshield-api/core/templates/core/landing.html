@@ -1,36 +1,117 @@
 {% extends 'developers/base.html' %}
+{% load static %}
 
 {% block title %}GeoShield API - IP Risk Intelligence{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row align-items-center">
+    <!-- Hero Section -->
+    <div class="row align-items-center min-vh-75">
         <div class="col-lg-6">
-            <h1 class="display-4">IP Risk Intelligence API</h1>
-            <p class="lead">Get geolocation, risk scores, and threat data for any IP address.</p>
-            <div class="mt-4">
-                <a href="{% url 'developers:signup' %}" class="btn btn-primary btn-lg">Get Started Free</a>
-                <a href="/swagger/" class="btn btn-outline-secondary btn-lg">API Documentation</a>
+            <h1 class="display-3 fw-bold mb-4">
+                IP Risk Intelligence<br>
+                <span class="text-primary">API</span>
+            </h1>
+            <p class="lead mb-4">
+                Get instant geolocation, risk scores, and threat data for any IP address. 
+                Perfect for fraud detection, security analysis, and geo-targeting.
+            </p>
+            <div class="d-flex gap-3 mb-4">
+                <a href="{% url 'developers:signup' %}" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-shield-check"></i> Get Started Free
+                </a>
+                <a href="/swagger/" class="btn btn-outline-primary btn-lg px-4">
+                    <i class="bi bi-braces"></i> API Docs
+                </a>
             </div>
-            <div class="mt-4">
-                <p class="text-muted">✨ 1,000 free requests/month · No credit card required</p>
-            </div>
+            <p class="text-muted">
+                <i class="bi bi-star-fill text-warning"></i> 1,000 free requests/month · No credit card required
+            </p>
         </div>
         <div class="col-lg-6">
-            <div class="card">
+            <div class="card shadow-lg">
                 <div class="card-header bg-dark text-white">
-                    <code>Example API Response</code>
+                    <i class="bi bi-terminal"></i> Example API Response
                 </div>
-                <div class="card-body">
-                    <pre><code>{
+                <div class="card-body bg-light">
+                    <pre class="mb-0"><code>{
   "ip": "8.8.8.8",
   "country": "United States",
-  "city": "Unknown",
+  "city": "Mountain View",
+  "latitude": 37.422,
+  "longitude": -122.084,
   "risk_score": 0,
-  "monthly_usage": 42
+  "monthly_usage": 42,
+  "free_requests_remaining": 958
 }</code></pre>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5 pt-5">
+        <h2 class="text-center fw-bold mb-5">Why Choose GeoShield?</h2>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-geo-alt-fill text-primary display-4"></i>
+                    <h4 class="mt-3">Accurate Geolocation</h4>
+                    <p class="text-muted">Get country, city, coordinates, and ISP information for any IP address with 99.9% accuracy.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-shield-fill text-primary display-4"></i>
+                    <h4 class="mt-3">Risk Scoring</h4>
+                    <p class="text-muted">Identify VPNs, proxies, and potentially malicious IPs with our advanced risk scoring engine.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-lightning-charge-fill text-primary display-4"></i>
+                    <h4 class="mt-3">Lightning Fast</h4>
+                    <p class="text-muted">Average response time under 100ms. Scale to millions of requests with our reliable infrastructure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mt-5 py-5 bg-light rounded">
+        <div class="col-md-3 col-6 text-center">
+            <h2 class="display-4 fw-bold text-primary">10M+</h2>
+            <p class="text-muted">Daily Requests</p>
+        </div>
+        <div class="col-md-3 col-6 text-center">
+            <h2 class="display-4 fw-bold text-primary">99.9%</h2>
+            <p class="text-muted">Uptime SLA</p>
+        </div>
+        <div class="col-md-3 col-6 text-center">
+            <h2 class="display-4 fw-bold text-primary">5k+</h2>
+            <p class="text-muted">Developers</p>
+        </div>
+        <div class="col-md-3 col-6 text-center">
+            <h2 class="display-4 fw-bold text-primary">24/7</h2>
+            <p class="text-muted">Support</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row mt-5 text-center">
+        <div class="col-12">
+            <h2 class="fw-bold">Ready to get started?</h2>
+            <p class="lead mb-4">Join thousands of developers using GeoShield API</p>
+            <a href="{% url 'developers:signup' %}" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-shield-lock"></i> Create Your Free Account
+            </a>
         </div>
     </div>
 </div>

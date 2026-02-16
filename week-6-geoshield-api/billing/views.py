@@ -1,5 +1,4 @@
 from django.shortcuts import render
 
 def pricing(request):
-    return render(request, "pricing.html")
-
+    return render(request, 'billing/pricing.html')  

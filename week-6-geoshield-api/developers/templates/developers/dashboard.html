@@ -1,16 +1,211 @@
-{% extends 'developers/base.html' %}  <!-- Inherits from base.html -->
+{% extends 'developers/base.html' %}
 
-{% block title %}Dashboard - GeoShield{% endblock %}
+{% block title %}Developer Dashboard - GeoShield API{% endblock %}
 
 {% block content %}
-    <h1>Welcome, {{ user.username }}!</h1>  <!-- User data from Django -->
+<style>
+    /* FIXED CSS - No syntax errors */
+    .stats-card {
+        transition: transform 0.2s;
+        height: 100%;
+    }
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+    .api-key-box {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: monospace;
+        word-break: break-all;
+    }
+    .usage-progress {
+        height: 10px;
+        border-radius: 5px;
+    }
+    pre {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    .copy-btn {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-speedometer2"></i> Developer Dashboard</h1>
+        <span class="badge bg-success fs-6">Welcome, {{ user.username }}!</span>
+    </div>
     
-    <div class="card">
-        <div class="card-body">
-            <h5>Your API Key</h5>
-            <code>{{ api_key.key }}</code>  <!-- Data passed from view -->
-            
-            <p>Monthly Usage: {{ api_key.monthly_usage }}/1000</p>
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card bg-primary text-white stats-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-key"></i> API Key</h5>
+                    <p class="h4">{{ api_key.key|truncatechars:20 }}...</p>
+                    <small>Created: {{ api_key.created_at|date:"M d, Y" }}</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card bg-success text-white stats-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-graph-up"></i> Monthly Usage</h5>
+                    <h2 class="display-6">{{ api_key.monthly_usage }} / 1000</h2>
+                    <div class="progress bg-light usage-progress mt-2">
+                        <div class="progress-bar bg-white" role="progressbar" 
+                             style="width: {{ usage_percentage }}%;" 
+                             aria-valuenow="{{ usage_percentage }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                        </div>
+                    </div>
+                    <small class="mt-2 d-block">Resets: {{ api_key.usage_reset_date|date:"M d, Y" }}</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="card bg-info text-white stats-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-credit-card"></i> Subscription</h5>
+                    {% if subscription %}
+                        <h4 class="text-capitalize">{{ subscription.status }}</h4>
+                        <small>Next billing: {{ subscription.current_period_end|date:"M d, Y" }}</small>
+                    {% else %}
+                        <h4>Free Tier</h4>
+                        <a href="{% url 'billing:pricing' %}" class="btn btn-light btn-sm mt-2">
+                            <i class="bi bi-stars"></i> Upgrade
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- API Key Management -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0"><i class="bi bi-key-fill"></i> Your API Key</h5>
+        </div>
+        <div class="card-body">
+            <div class="api-key-box">
+                <code id="apiKey">{{ api_key.key }}</code>
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-outline-secondary btn-sm copy-btn" onclick="copyApiKey()">
+                    <i class="bi bi-clipboard"></i> Copy
+                </button>
+                <form method="post" action="{% url 'developers:regenerate_key' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-warning btn-sm" 
+                            onclick="return confirm('Are you sure? The old key will stop working immediately.')">
+                        <i class="bi bi-arrow-repeat"></i> Regenerate
+                    </button>
+                </form>
+            </div>
+            <p class="text-muted small mt-3">
+                <i class="bi bi-info-circle"></i> Include this key in the Authorization header: 
+                <code>Authorization: Bearer YOUR_API_KEY</code>
+            </p>
+        </div>
+    </div>
+
+    <!-- Quick Test & Documentation -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Test</h5>
+                </div>
+                <div class="card-body">
+                    <p>Test your API key with this curl command:</p>
+                    <pre><code>curl -X POST https://geofield-api.onrender.com/api/v1/ip/analyze/ \
+  -H "Authorization: Bearer {{ api_key.key }}" \
+  -H "Content-Type: application/json" \
+  -d '{"ip": "8.8.8.8"}'</code></pre>
+                    
+                    <button class="btn btn-outline-primary" onclick="testApi()">
+                        <i class="bi bi-play"></i> Run Test
+                    </button>
+                    <div id="testResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-book"></i> Documentation</h5>
+                </div>
+                <div class="card-body">
+                    <p>Explore our interactive API documentation:</p>
+                    <div class="d-grid gap-2">
+                        <a href="/swagger/" target="_blank" class="btn btn-outline-success">
+                            <i class="bi bi-braces"></i> Swagger UI
+                        </a>
+                        <a href="/redoc/" target="_blank" class="btn btn-outline-info">
+                            <i class="bi bi-file-text"></i> ReDoc
+                        </a>
+                        <a href="{% url 'billing:pricing' %}" class="btn btn-outline-primary">
+                            <i class="bi bi-currency-dollar"></i> View Pricing
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="bi bi-clock-history"></i> Recent API Activity</h5>
+        </div>
+        <div class="card-body">
+            <p class="text-muted text-center py-4">
+                <i class="bi bi-graph-up display-4 d-block mb-3"></i>
+                Your recent API calls will appear here. Start making requests to see analytics!
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyApiKey() {
+    const apiKey = document.getElementById('apiKey').innerText;
+    navigator.clipboard.writeText(apiKey).then(() => {
+        alert('API key copied to clipboard!');
+    }).catch(err => {
+        alert('Failed to copy: ' + err);
+    });
+}
+
+function testApi() {
+    const resultDiv = document.getElementById('testResult');
+    resultDiv.innerHTML = '<div class="spinner-border spinner-border-sm"></div> Testing...';
+    
+    fetch('/api/v1/ip/analyze/', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer {{ api_key.key }}',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ip: '8.8.8.8'})
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultDiv.innerHTML = '<div class="alert alert-success">✓ Success! Response: <pre class="mt-2 mb-0">' + 
+                              JSON.stringify(data, null, 2) + '</pre></div>';
+    })
+    .catch(error => {
+        resultDiv.innerHTML = '<div class="alert alert-danger">✗ Error: ' + error + '</div>';
+    });
+}
+</script>
 {% endblock %}

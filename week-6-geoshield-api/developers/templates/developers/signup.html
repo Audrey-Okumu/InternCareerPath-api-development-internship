@@ -5,31 +5,65 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-8">
+            <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h4>Create Developer Account</h4>
+                    <h4 class="mb-0"><i class="bi bi-person-plus"></i> Create Your Developer Account</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <form method="post">
+                                {% csrf_token %}
+                                
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="form-text">We'll never share your email with anyone else.</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <div class="form-text">At least 8 characters with letters and numbers</div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100 py-2">
+                                    <i class="bi bi-shield-check"></i> Create Account
+                                </button>
+                            </form>
+                            
+                            <hr>
+                            
+                            <p class="text-center mb-0">
+                                Already have an account? <a href="{% url 'developers:login' %}">Log in</a>
+                            </p>
                         </div>
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" required>
+                        
+                        <div class="col-md-5 border-start">
+                            <h5><i class="bi bi-stars text-primary"></i> You'll get:</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 1,000 free requests/month</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Instant API key</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> IP geolocation</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Risk scoring</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 24/7 API access</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Community support</li>
+                            </ul>
+                            
+                            <div class="bg-light p-3 rounded mt-3">
+                                <p class="mb-0 small text-muted">
+                                    <i class="bi bi-shield-lock"></i> No credit card required. 
+                                    Upgrade anytime.
+                                </p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
-                    </form>
-                    <p class="mt-3 text-center">
-                        Already have an account? <a href="{% url 'developers:login' %}">Login</a>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
