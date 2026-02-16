@@ -1,111 +1,54 @@
-# 📚 Library REST API (Week 2)
+# 📚 Security and Rate Limiting (Week 5)
 
 ## Overview
 
-This project is a simple **RESTful API** built using **Django** and **Django REST Framework** for managing books in a library system.
-It supports full **CRUD operations** (Create, Read, Update, Delete) and follows REST principles.
+This project is an evolution of the Week 2 project with additional features and improvements.It implements a Secure API Gateway designed to protect backend services from unauthorized access, abuse, and distributed attacks.
+
+The gateway integrates:
+
+- API Key Authentication
+- JWT-based Authentication
+- Rate Limiting using Redis
+- Reverse Proxy & Security Hardening via Nginx
+
+The goal is to simulate a production-grade security layer that sits between clients and backend services.
 
 ---
-
-## Features
-
-* Retrieve all books
-* Retrieve a single book by ID
-* Add a new book
-* Update an existing book
-* Delete a book
-* JSON-based API responses
-* SQLite database
-* Django Admin support
-
+## 🚀 Installation & Setup
+### Clone Repository
+```bash
+git clone <repo-url>
+cd week5-secure-api-gateway
+```
+###  Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+###Start Redis
 ---
-
 ## Tech Stack
 
 * **Python 3**
 * **Django**
 * **Django REST Framework**
 * **SQLite (default Django database)**
+* **Redis**
+* **Nginx**
 ---
 
-## 🔗 API Endpoints
+## 🛡️ DDoS Mitigation Strategy
 
-### 1️⃣ Get All Books
+This project defends against:
 
-**GET**
+- Brute-force login attempts
+- Token abuse
+- API scraping
+- Flood attacks
+- Excessive connection attempts
 
-```
-/api/books/
-```
+Defense layers:
 
-### 2️⃣ Create a New Book
-
-**POST**
-
-```
-/api/books/
-```
-
-### 3️⃣ Get a Book by ID
-
-**GET**
-
-```
-/api/books/{id}/
-```
----
-
-### 4️⃣ Update a Book
-
-**PUT**
-
-```
-/api/books/{id}/
-```
-### 5️⃣ Delete a Book
-
-DELETE
-
-/api/books/{id}/
-
- ---
-
-## ▶️ How to Run the Project Locally
-
-### 1️⃣ Clone the repository
-git clone <https://github.com/Audrey-Okumu/InternCareerPath-api-development-internship.git>
-
-cd week-2-library-rest-api
-
-### 2️⃣ Create and activate virtual environment
-python -m venv env
-env\Scripts\activate   # Windows
-
-### 3️⃣ Install dependencies
-pip install django djangorestframework
-
-### 4️⃣ Run migrations
-python manage.py migrate
-
-### 5️⃣ Start the development server
-python manage.py runserver
-
-## 🔐 Django Admin
-
-### Create an admin user:
-
-python manage.py createsuperuser
-
-### Access admin panel:
-
-http://127.0.0.1:8000/admin/
-
- ---
-
-## 📌 Learning Outcomes
-
-- Built REST APIs using Django REST Framework
-- Implemented function-based views with multiple HTTP methods
-- Used serializers for JSON ↔ Python conversion
-- Handled HTTP status codes properly
-- Structured a real-world backend project
+- Nginx request throttling
+- Redis rate limiting
+- JWT verification
+- API key validation
