@@ -36,7 +36,7 @@ and API development concept.
 
 1. **Clone the repository**
 ```bash
-git clone [InternCareerPath-api-development-internship](https://github.com/Audrey-Okumu/InternCareerPath-api-development-internship)
+git clone https://github.com/Audrey-Okumu/InternCareerPath-api-development-internship.git
 cd InternCareerPath-api-development-internship
 ```
 2. **Create and activate virtual environment**
