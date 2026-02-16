@@ -1,0 +1,9 @@
+<h1>Developer Dashboard</h1>
+
+{% if api_key %}
+<p><strong>Your API Key:</strong> {{ api_key.key }}</p>
+<p><strong>Monthly Usage:</strong> {{ api_key.monthly_usage }}</p>
+<p><strong>Free Tier Remaining:</strong> {{ 1000|add:-api_key.monthly_usage }}</p>
+{% else %}
+<p>No API key generated.</p>
+{% endif %}

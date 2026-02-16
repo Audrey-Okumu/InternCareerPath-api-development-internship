@@ -1,0 +1,17 @@
+# Ignore shared virtual environment
+../venv/
+
+# Ignore environment files
+.env
+**/.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+db.sqlite3
+geo_db/
+
+# Large files
+*.mmdb
