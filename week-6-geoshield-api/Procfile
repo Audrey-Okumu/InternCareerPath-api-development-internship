@@ -1,1 +1,2 @@
-web: gunicorn geoshield.wsgi
+web: gunicorn geoshield.wsgi:application
+
