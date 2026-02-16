@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
+from django.shortcuts import render
 from django.utils import timezone
 import geoip2.database
 import ipaddress
@@ -14,7 +15,7 @@ from billing.stripe_utils import record_usage
 from django.shortcuts import redirect
 
 def home(request):
-    return redirect('/swagger/')
+    return render(request, 'core/landing.html')  
 
 response_schema = openapi.Schema(
     type=openapi.TYPE_OBJECT,
