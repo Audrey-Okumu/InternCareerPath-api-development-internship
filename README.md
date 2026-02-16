@@ -19,6 +19,38 @@ and API development concept.
 - SQL Databases
 - Redis
 - Stripe
+- Django
+- Django REST Framework
 
-## Author
-Audrey Akello
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+- virtualenv or venv
+- Git
+- Redis (for Week 5-6)
+- PostgreSQL (optional, for production-ready setup)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone [your-repository-url]
+cd [repository-name]
+```
+2. **Create and activate virtual environment**
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Mac/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+3. **Install base dependencies**
+
+```bash
+pip install -r requirements.txt
+``
