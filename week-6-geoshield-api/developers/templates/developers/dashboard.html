@@ -1,0 +1,16 @@
+{% extends 'developers/base.html' %}  <!-- Inherits from base.html -->
+
+{% block title %}Dashboard - GeoShield{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ user.username }}!</h1>  <!-- User data from Django -->
+    
+    <div class="card">
+        <div class="card-body">
+            <h5>Your API Key</h5>
+            <code>{{ api_key.key }}</code>  <!-- Data passed from view -->
+            
+            <p>Monthly Usage: {{ api_key.monthly_usage }}/1000</p>
+        </div>
+    </div>
+{% endblock %}
